@@ -1,0 +1,50 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+    font-family: 'ppmori';
+    src: url('../Fonts/PPMori-SemiBold.otf') format('otf');
+    font-weight: normal;
+    font-style: normal;
+  }
+
+body {
+    background-color: #faefe3;
+}
+
+h2 {
+    color: white;
+}
+
+h1 {
+    color: white;
+    font-family: ppmori;
+}
+
+    nav {
+    background-color:#e8803b;
+    padding: 1rem 2rem;
+    font-family: Arial, sans-serif;
+  }
+  
+  nav ul {
+    list-style: none;
+    display: flex;
+    gap: 2rem;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+  }
+  
+  nav li {
+    color: #ffffff;
+    cursor: pointer;
+    transition: color 0.3s, transform 0.3s;
+  }
+  
+  nav li:hover {
+    color: #ffffff; /* Teal highlight */
+    transform: scale(1.05);
+  }
