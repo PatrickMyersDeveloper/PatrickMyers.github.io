@@ -6,54 +6,112 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <title>Patrick Myers | Portfolio</title>
   <link rel="icon" href="PM.png" type="image/png" sizes="32x32">
-  <style>
-    
-    /* Hero links hover */
-    #hero a:hover {
-      color: #d1f5e0; /* light green/soft pastel for visibility */
-    }
 
-    /* Animated gradient background (darker green start → teal → soft gold) */
-    .animated-gradient {
-      background: linear-gradient(45deg, #2e5d45, #4a7a50, #2f2fe0, #090083);
-      background-size: 400% 400%;
-      animation: gradientBG 15s ease infinite;
-    }
-    @keyframes gradientBG {
-      0% {background-position: 0% 50%;}
-      50% {background-position: 100% 50%;}
-      100% {background-position: 0% 50%;}
-    }
+  <!-- Bebas Neue font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
+  <body class="font-sans bg-white text-gray-900">
+  
+  <style>
+    /* Only apply Bebas Neue to name and section headers */
+    .bebas-neue { font-family: "Bebas Neue", sans-serif; font-weight: 400; }
+
+    
+
+    /* Hero links hover */
+    #hero a:hover { color: #ffb3b3; }
+
+    /* Uniform background for all sections */
+    section { background-color: #ffffff; transition: background-color 0.3s ease; }
+
+    /* Animated gradient background for hero */
+    .animated-gradient { background: linear-gradient(45deg, #D90041, #a20032, #ff4c6d); background-size: 400% 400%; animation: gradientBG 15s ease infinite; }
+    @keyframes gradientBG { 0% {background-position:0% 50%;} 50% {background-position:100% 50%;} 100% {background-position:0% 50%;} }
 
     /* Blob styling */
-    .blob {
-      position: absolute;
-      background: rgba(255, 255, 255, 0.25);
-      border-radius: 40% 60% 70% 30% / 50% 40% 60% 50%;
-      animation: float 25s ease-in-out infinite alternate, morph 8s ease-in-out infinite alternate;
-      pointer-events: none;
-    }
-
+    .blob { position:absolute; background: rgba(255,255,255,0.15); border-radius: 40% 60% 70% 30% / 50% 40% 60% 50%; animation: float 25s ease-in-out infinite alternate, morph 8s ease-in-out infinite alternate; pointer-events:none; }
     @keyframes float { 0% {transform:translate(0,0);} 50% {transform:translate(30px,-45px);} 100% {transform:translate(0,0);} }
-    @keyframes morph { 0% {border-radius:45% 55% 65% 35% /50% 45% 55% 50%;} 25% {border-radius:50%50%60%40%/55%40%60%45%;} 50% {border-radius:40%60%70%30%/50%40%65%55%;} 75% {border-radius:50%50%60%40%/60%50%50%45%;} 100% {border-radius:45%55%65%35%/50%45%55%50%;} }
+    @keyframes morph { 0% {border-radius:45%55%65%35%/50%45%55%50%;} 25% {border-radius:50%50%60%40%/55%40%60%45%;} 50% {border-radius:40%60%70%30%/50%40%65%55%;} 75% {border-radius:50%50%60%40%/60%50%50%45%;} 100% {border-radius:45%55%65%35%/50%45%55%50%;} }
 
-    .hero-overlay { position:absolute; inset:0; background: rgba(0,0,0,0.25); z-index:0; }
+    .hero-overlay { position:absolute; inset:0; background: rgba(0,0,0,0.35); z-index:0; }
 
     .fade-in-up { opacity:0; transform:translateY(10px); transition:opacity 0.8s ease-out, transform 0.8s ease-out; }
     .fade-in-up.visible { opacity:1; transform:translateY(0); }
 
-    /* About Me colored keywords (darker green) */
-    .about-text span { color: #2e5d45; font-weight:600; }
+    /* About Me colored keywords */
+    .about-text span { color: #D90041; font-weight:600; }
 
     /* Resume section */
     .resume-section h4 { font-weight:700; font-size:1.125rem; }
     .resume-section .company-date { color: #6b7280; font-size:0.875rem; }
     .skill-item { transition: transform 0.3s ease, color 0.3s ease; cursor:default; }
-    .skill-item::before { content: '•'; display:inline-block; color: #4a7a50; margin-right:6px; }
-    .skill-item:hover { transform: scale(1.05); color: #2f6b45; }
+    .skill-item::before { content: '•'; display:inline-block; color: #D90041; margin-right:6px; }
+    .skill-item:hover { transform: scale(1.05); color: #a20032; }
 
-    /* Links hover */
-    a:hover { color: #2f6b45; }
+    /* Gallery hover */
+    .project-card { transition: transform 0.3s ease, box-shadow 0.3s ease; }
+    .project-card:hover { transform: scale(1.05); box-shadow: 0 10px 20px rgba(0,0,0,0.2); cursor:pointer; }
+
+    /* Lightbox styling */
+    #lightbox {
+      display:flex; align-items:center; justify-content:center;
+      background: rgba(0,0,0,0.85);
+      position:fixed; inset:0; z-index:50;
+      opacity:0; visibility:hidden;
+      transition: opacity 0.3s ease;
+      padding:1rem;
+    }
+    #lightbox.show { opacity:1; visibility:visible; }
+    #lightbox-content {
+      max-width:90%; max-height:90%;
+      text-align:center; overflow:auto;
+      transform: scale(0.8);
+      opacity:0;
+      transition: transform 0.3s ease, opacity 0.3s ease;
+    }
+    #lightbox.show #lightbox-content { transform: scale(1); opacity:1; }
+    #lightbox-content img { max-width:100%; max-height:70vh; border-radius:0.5rem; margin-bottom:1rem; }
+    #lightbox-content h3, #lightbox-content p { color:#ffffff; }
+    #lightbox-content h3 { font-size:1.75rem; margin-bottom:0.5rem; }
+    #lightbox-content p { font-size:1rem; line-height:1.5; }
+    #lightbox-close { position:absolute; top:1rem; right:1rem; font-size:2rem; color:white; background:transparent; border:none; cursor:pointer; }
+
+    /* Only largest headers use Bebas Neue */
+    h1.bebas-neue, section h2 {
+      font-family: "Bebas Neue", sans-serif;
+      font-weight: 400;
+      color: #1a1a1a; /* Off-black for section headers */
+    }
+
+    /* Hero name stays white */
+    h1.bebas-neue {
+      font-size: 6rem; /* Main hero name */
+      color: #ffffff; /* White in hero section */
+    }
+
+    /* Main section headings */
+    section h2 {
+      font-size: 4rem; /* Main section headings */
+      margin-bottom: 1rem;
+    }
+
+    /* Subsection headers use default font but semi-bold for hierarchy */
+    section h3, section h4 {
+      font-size: 1.5rem;
+      font-weight: 600; /* Semi-bold for better hierarchy */
+      color: #1a1a1a; /* Off-black for contrast */
+      margin-bottom: 1rem;
+    }
+
+    /* Rounded line between sections */
+    .section-divider {
+      width: 70%;
+      height: 6px;
+      margin: 4rem auto;
+      border-radius: 3px;
+      background-color: #1a1a1a;
+    }
   </style>
 </head>
 <body class="font-sans bg-gray-50 text-gray-900">
@@ -62,89 +120,78 @@
   <section class="relative animated-gradient text-white min-h-screen flex items-center justify-center overflow-hidden" id="hero">
     <div class="hero-overlay"></div>
     <div class="relative z-10 max-w-7xl mx-auto px-6 text-center md:text-left flex flex-col md:flex-row items-center gap-14">
-      <!-- Photo -->
       <div class="w-72 h-72 md:w-80 md:h-80 rounded-full overflow-hidden border-4 border-white shadow-lg flex-shrink-0">
         <img src="port.jpg" alt="Patrick Myers" class="w-full h-full object-cover">
       </div>
-
-      <!-- Intro -->
       <div>
-        <h1 class="text-6xl md:text-7xl font-extrabold mb-5 fade-in-up">Patrick Myers</h1>
+        <h1 class="bebas-neue mb-5 fade-in-up">Patrick Myers</h1>
         <p class="text-2xl md:text-3xl font-medium mb-7 fade-in-up">Leader | Developer | Designer</p>
-        <div class="space-y-3 text-xl md:text-2xl fade-in-up">
-          <p><a href="mailto:patmyers@nmu.edu" class="underline">patmyers@nmu.edu</a></p>
-          <p><a href="https://www.linkedin.com/in/patrickmyersappdev/" target="_blank" class="underline">linkedin.com/in/patrickmyersappdev</a></p>
-        </div>
+        <p class="text-lg md:text-xl mb-5 fade-in-up">Finding solutions to problems through the use of communication, technology, human centered design, and hyper creativity.</p>
       </div>
     </div>
   </section>
 
   <!-- About Me Section -->
-  <section id="about" class="py-20 bg-gray-50">
+  <section id="about" class="py-20">
     <div class="max-w-5xl mx-auto px-6 text-center md:text-left">
-      <h2 class="text-3xl font-bold mb-6 text-gray-800">About Me</h2>
+      <h2>About Me</h2>
       <p class="text-lg md:text-xl text-gray-700 leading-relaxed opacity-0 transform translate-y-5 transition duration-700 ease-out about-text">
-        Hi, I’m <span>Patrick Myers</span>. I’m a <span>Leader</span> with passions for people, technology, design, and the ways they intersect throughout our world. I enjoy finding solutions that make progress more smooth and meaningful for my team. <br><br>
-
-        Outside of my day-to-day work, I’m a <span>coder</span>, a <span>designer</span>, and an <span>explorer</span> at heart. I spend my free time tinkering with code, hiking through National Parks, and dreaming up ideas for my next adventure—or maybe my next "Jeopardy!" tryout. <br><br>
-
-        I’m passionate about <span>mentoring others</span>, creating spaces where people can thrive, and constantly <span>learning something new</span>. Whether it’s improving processes at work, crafting beautiful and functional pieces of code, or capturing the perfect film photo, I love tackling challenges that allow me to grow and help others do the same.
+        Hi, I’m <span>Patrick Myers</span>. I’m a <span>Leader</span> with passions for people, technology, design, and the ways they intersect. I enjoy crafting solutions that make teamwork smoother and projects more impactful.<br><br>
+        Outside of work, I’m a <span>coder</span>, <span>designer</span>, and <span>explorer</span> at heart. I spend my free time tinkering with code, hiking in National Parks, and occasionally plotting my next “Jeopardy!” tryout.<br><br>
+        I’m also passionate about <span>mentoring</span>, <span>continuous learning</span>, and fostering growth in teams. Whether it’s improving processes, designing intuitive experiences, or capturing the perfect film photo, I love tackling challenges that let me grow and help others do the same.
       </p>
     </div>
   </section>
 
-  <!-- Resume Section -->
-  <section id="resume" class="py-20 bg-white">
-    <div class="max-w-5xl mx-auto px-6 resume-section">
-      <h2 class="text-3xl font-bold mb-10 text-gray-800 text-center">Resume</h2>
+  <div class="section-divider"></div>
 
-      <!-- Education -->
+  <!-- Resume Section -->
+  <section id="resume" class="py-20">
+    <div class="max-w-5xl mx-auto px-6 resume-section">
+      <h2 class="text-center">Resume</h2>
       <div class="mb-12">
-        <h3 class="text-2xl font-semibold mb-4 text-green-700">Education</h3>
+        <h3 class="text-[#D90041]">Education</h3>
         <p class="text-lg">Bachelor of Science in Mobile and Web Applications Development – Northern Michigan University, May 2024 (GPA 3.25)</p>
       </div>
-
-      <!-- Experience -->
       <div class="mb-12">
-        <h3 class="text-2xl font-semibold mb-4 text-green-700">Professional & Leadership Experience</h3>
-
+        <h3 class="text-[#D90041]">Professional & Leadership Experience</h3>
         <div class="mb-8">
           <h4>Area Manager — <strong>Amazon</strong>, Phoenix, AZ</h4>
           <p class="company-date">May 2024 – Present</p>
           <ul class="list-disc pl-6 mt-2 space-y-2 text-gray-700">
             <li>Lead a team of 50–100 people to organize, process, and recover losses on returned products.</li>
-            <li>Refined processes through cross-functional collaborative projects saving more than $2,000,000 annually.</li>
-            <li>Surpassed performance goals, achieving up to 135% to plan via lean execution and labor cost management.</li>
-            <li>Developed and coached 8 Tier 3 employees; assisted in coaching a Tier 1 employee into a Tier 3 promotion.</li>
-            <li>Created a multi-site process improvement increasing recovered value on high-value electronics.</li>
+            <li>Refined processes through cross-functional projects saving $2M+ annually.</li>
+            <li>Surpassed performance goals, achieving up to 135% to plan via lean execution and labor management.</li>
+            <li>Developed and coached 8 Tier 3 employees; assisted Tier 1 promotion to Tier 3.</li>
           </ul>
         </div>
-
         <div class="mb-8">
           <h4>Co-President — <strong>Marquette Ending Hunger</strong>, Marquette, MI</h4>
           <p class="company-date">Aug 2022 – May 2023</p>
           <ul class="list-disc pl-6 mt-2 space-y-2 text-gray-700">
-            <li>Raised ~700 lbs of food and $150 during TV6 Canathon through strategic campus initiatives.</li>
-            <li>Partnered with Alpha Gamma Delta to host a penny war fundraiser for Feeding America.</li>
-            <li>Managed marketing and social media campaigns including video production and poster design.</li>
-            <li>Planned and hosted weekly meetings to coordinate projects and events.</li>
+            <li>Raised ~700 lbs of food & $150 during TV6 Canathon through campus initiatives.</li>
+            <li>Managed marketing campaigns, video production, and social media content.</li>
           </ul>
         </div>
-
-        <div>
+        <div class="mb-8">
           <h4>Resident Advisor — <strong>Northern Michigan University</strong>, Marquette, MI</h4>
           <p class="company-date">Aug 2021 – May 2024</p>
           <ul class="list-disc pl-6 mt-2 space-y-2 text-gray-700">
-            <li>Supported 60 students academically and socially by fostering community and connection.</li>
-            <li>Developed events with resident input, strengthening belonging and engagement.</li>
-            <li>Encouraged positive community interactions, reducing code violations through strong peer culture.</li>
+            <li>Supported 60 students academically and socially by fostering community and engagement.</li>
+          </ul>
+        </div>
+        <div class="mb-8">
+          <h4>Awards & Certifications</h4>
+          <ul class="list-disc pl-6 mt-2 space-y-2 text-gray-700">
+            <li>Nominated for Outstanding Graduating Senior – NMU</li>
+            <li>Six Sigma White Belt</li>
+            <li>Endorsed by the President of NMU</li>
+            <li>Host of a YouTube Show</li>
           </ul>
         </div>
       </div>
-
-      <!-- Skills -->
-      <div>
-        <h3 class="text-2xl font-semibold mb-4 text-green-700">Technical & Professional Skills</h3>
+      <div class="mb-12">
+        <h3 class="text-[#D90041]">Technical & Professional Skills</h3>
         <ul class="grid grid-cols-1 md:grid-cols-2 gap-3 text-gray-700">
           <li class="skill-item">Project Management: Six Sigma, Agile, Root Cause Analysis, Asana</li>
           <li class="skill-item">Data Analysis: Excel (VLookup, Pivot Tables), SQL</li>
@@ -155,34 +202,132 @@
     </div>
   </section>
 
-<!-- Call-to-Action Section -->
-<section id="contact" class="py-20 bg-gray-50">
-  <div class="max-w-5xl mx-auto px-6 text-center">
-    <h2 class="text-3xl md:text-4xl font-bold mb-6 text-gray-800">Let’s Connect!</h2>
-    <p class="text-lg md:text-xl text-gray-700 mb-8">
-      I’m always open to connecting with like-minded professionals, exploring leadership opportunities, or collaborating on interesting projects.
-    </p>
-    <div class="flex flex-col sm:flex-row justify-center gap-4">
-      <a href="mailto:patmyers@nmu.edu" class="inline-block bg-green-700 text-white px-6 py-3 rounded-lg shadow hover:bg-green-800 transition">
-        Email Me
-      </a>
-      <a href="https://www.linkedin.com/in/patrickmyersappdev/" target="_blank" class="inline-block bg-gray-200 text-gray-900 px-6 py-3 rounded-lg shadow hover:bg-gray-300 transition">
-        Connect on LinkedIn
-      </a>
+  <div class="section-divider"></div>
+
+  <!-- Design Projects Gallery -->
+  <section id="projects" class="py-20">
+    <div class="max-w-6xl mx-auto px-6 text-center">
+      <h2>Design Projects</h2>
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
+        <!-- Project Items -->
+        <div class="project-card bg-white rounded-lg shadow-lg p-6"
+             data-image="howl.jpg"
+             data-title="Howl at the Moon"
+             data-description="This playful design was part of a collection of screen prints created and sold locally in Marquette, MI."
+             onclick="openLightbox(this)">
+          <img src="howl.jpg" alt="Howl at the Moon" class="h-48 w-full object-cover mb-4 rounded">
+          <h4 class="text-xl font-semibold mb-2">Howl at the Moon</h4>
+          <p class="text-gray-700">This playful design was part of a collection of screen prints created and sold locally in Marquette, MI.</p>
+        </div>
+
+        <div class="project-card bg-white rounded-lg shadow-lg p-6"
+             data-image="yashica.jpg"
+             data-title="Classic Yashica Advertisement"
+             data-description="Calling back to the camera I once thrifted for $2, I made this poster to celebrate the point and shoot that got me into film photography."
+             onclick="openLightbox(this)">
+          <img src="yashica.jpg" alt="Classic Yashica Advertisement" class="h-48 w-full object-cover mb-4 rounded">
+          <h4 class="text-xl font-semibold mb-2">Classic Yashica Advertisement</h4>
+          <p class="text-gray-700">Calling back to the camera I once thrifted for $2, I made this poster to celebrate the point and shoot that got me into film photography.</p>
+        </div>
+
+        <div class="project-card bg-white rounded-lg shadow-lg p-6"
+             data-image="findsomelove.png"
+             data-title="Find Some Love in This Life"
+             data-description="To accompany this 35mm photo shot at White Sands National Park, light text was added for a fun Instagram edit."
+             onclick="openLightbox(this)">
+          <img src="findsomelove.png" alt="Find Some Love in This Life" class="h-48 w-full object-cover mb-4 rounded">
+          <h4 class="text-xl font-semibold mb-2">Find Some Love in This Life</h4>
+          <p class="text-gray-700">To accompany this 35mm photo shot at White Sands National Park, light text was added for a fun Instagram edit.</p>
+        </div>
+
+        <div class="project-card bg-white rounded-lg shadow-lg p-6"
+             data-image="venue.png"
+             data-title="Venue"
+             data-description="A vibrant design exploring spatial composition for a modern music venue."
+             onclick="openLightbox(this)">
+          <img src="venue.png" alt="Venue" class="h-48 w-full object-cover mb-4 rounded">
+          <h4 class="text-xl font-semibold mb-2">The Venue</h4>
+          <p class="text-gray-700">A vibrant design exploring spatial composition for a modern music venue.</p>
+        </div>
+
+        <div class="project-card bg-white rounded-lg shadow-lg p-6"
+             data-image="duality.png"
+             data-title="Duality"
+             data-description="A conceptual artwork emphasizing balance and contrast through geometric forms."
+             onclick="openLightbox(this)">
+          <img src="duality.png" alt="Duality" class="h-48 w-full object-cover mb-4 rounded">
+          <h4 class="text-xl font-semibold mb-2">Duality of Women</h4>
+          <p class="text-gray-700">A conceptual artwork emphasizing balance and contrast through geometric forms.</p>
+        </div>
+
+        <div class="project-card bg-white rounded-lg shadow-lg p-6"
+             data-image="leave.png"
+             data-title="Leave"
+             data-description="A reflective piece highlighting solitude and tranquility through muted tones."
+             onclick="openLightbox(this)">
+          <img src="leave.png" alt="Leave" class="h-48 w-full object-cover mb-4 rounded">
+          <h4 class="text-xl font-semibold mb-2">Leave the World Behind</h4>
+          <p class="text-gray-700">A reflective piece highlighting solitude and tranquility through muted tones.</p>
+        </div>
+      </div>
     </div>
-  </div>
-</section>
 
+    <!-- Lightbox modal -->
+    <div id="lightbox" onclick="closeLightbox()">
+      <div id="lightbox-content">
+        <button id="lightbox-close" onclick="closeLightbox()">×</button>
+      </div>
+    </div>
+  </section>
 
-  <!-- JS for blobs and animations -->
+  <div class="section-divider"></div>
+
+  <!-- YouTube Section -->
+  <section id="youtube" class="py-20">
+    <div class="max-w-6xl mx-auto px-6 text-center">
+      <h2>Third Degree!</h2>
+      <h3>Watch me interview the most prominent characters of Northern Michigan University in this fun web series.</h3>
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
+        <div class="rounded-lg shadow-lg overflow-hidden">
+          <iframe class="w-full h-56" src="https://www.youtube.com/embed/lHP1pSwHmkk" title="YouTube video" frameborder="0" allowfullscreen></iframe>
+          <h5 class="text-l font-semibold mt-2">NMU 's President Dr. Tessman Gets Sweaty Forearms While Eating Spicy Cheese Curds | Third Degree</h4>
+        </div>
+        <div class="rounded-lg shadow-lg overflow-hidden">
+          <iframe class="w-full h-56" src="https://www.youtube.com/embed/lyngprMazyY" title="YouTube video" frameborder="0" allowfullscreen></iframe>
+          <h5 class="text-l font-semibold mt-2">NMU's Jeff Korpi Battles Jowl Heat While Eating Spicy Cheese Curds | Third Degree</h4>
+        </div>
+        <div class="rounded-lg shadow-lg overflow-hidden">
+          <iframe class="w-full h-56" src="https://www.youtube.com/embed/aPH4-xgErQw" title="YouTube video" frameborder="0" allowfullscreen></iframe>
+          <h5 class="text-l font-semibold mt-2">NMU's Sarah Kuehn Feels the Heat While Eating Spicy Cheese Curds | Third Degree</h4>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- Contact Section -->
+  <section id="contact" class="py-20">
+    <div class="max-w-5xl mx-auto px-6 text-center">
+      <h2>Let’s Connect!</h2>
+      <p class="text-lg md:text-xl text-gray-700 mb-8">
+        I’m always open to connecting with like-minded professionals, exploring leadership opportunities, or collaborating on interesting projects.
+      </p>
+      <div class="flex flex-col sm:flex-row justify-center gap-4">
+        <a href="mailto:patmyers@nmu.edu" class="inline-block bg-[#D90041] text-white px-6 py-3 rounded-lg shadow hover:bg-[#a20032] transition">Email Me</a>
+        <a href="https://www.linkedin.com/in/patrickmyersappdev/" target="_blank" class="inline-block bg-gray-200 text-gray-900 px-6 py-3 rounded-lg shadow hover:bg-gray-300 transition">Connect on LinkedIn</a>
+      </div>
+    </div>
+  </section>
+
   <script>
+    // Blob animation
     const hero = document.getElementById('hero');
-    const numBlobs = 15;
-    for (let i=0;i<numBlobs;i++){
-      const blob = document.createElement('div');
+    for(let i=0;i<12;i++){
+      const blob=document.createElement('div');
       blob.className='blob';
-      blob.style.width=`${90+Math.random()*180}px`;
-      blob.style.height=`${90+Math.random()*180}px`;
+      blob.style.width=`${80+Math.random()*160}px`;
+      blob.style.height=`${80+Math.random()*160}px`;
       blob.style.top=`${Math.random()*80}%`;
       blob.style.left=`${Math.random()*80}%`;
       blob.style.opacity=0.2+Math.random()*0.3;
@@ -190,12 +335,28 @@
       hero.appendChild(blob);
     }
 
-    const fadeElements = document.querySelectorAll('.fade-in-up');
-    fadeElements.forEach((el,i)=>{ setTimeout(()=>el.classList.add('visible'),300*i); });
+    // Fade in
+    document.querySelectorAll('.fade-in-up').forEach((el,i)=>{ setTimeout(()=>el.classList.add('visible'), 300*i); });
 
+    // About Me observer
     const aboutText = document.querySelector('.about-text');
-    const observer = new IntersectionObserver((entries)=>{ entries.forEach(entry=>{ if(entry.isIntersecting){ entry.target.classList.add('opacity-100','translate-y-0'); } }); },{threshold:0.2});
-    observer.observe(aboutText);
+    new IntersectionObserver(entries=>{ entries.forEach(entry=>{ if(entry.isIntersecting){ entry.target.classList.add('opacity-100','translate-y-0'); } }); },{threshold:0.2}).observe(aboutText);
+
+    // Lightbox
+    function openLightbox(card){
+      const lightbox = document.getElementById('lightbox');
+      const content = document.getElementById('lightbox-content');
+      content.innerHTML = `<button id="lightbox-close" onclick="closeLightbox()">×</button>
+        <img src="${card.dataset.image}" alt="${card.dataset.title}">
+        <h3>${card.dataset.title}</h3>
+        <p>${card.dataset.description}</p>`;
+      lightbox.classList.add('show');
+    }
+    function closeLightbox(){
+      document.getElementById('lightbox').classList.remove('show');
+    }
+    document.addEventListener('keydown', e => { if(e.key==="Escape") closeLightbox(); });
   </script>
+
 </body>
 </html>
